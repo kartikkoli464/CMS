@@ -1,103 +1,391 @@
-// Enhanced College Club Management System JavaScript - Clean Version
+// Enhanced College Club Management System JavaScript - Club Cards Enhanced
+// Data Management with localStorage
 
-// Sample events data
-const eventsData = [
-  {
-    title: "Annual Tech Fest 2025",
-    club: "Computer Science Club",
-    date: "October 15, 2025",
-    time: "9:00 AM - 6:00 PM",
-    location: "Main Auditorium",
-    description:
-      "Join us for an exciting day of technology presentations, coding competitions, and workshops.",
-    status: "upcoming",
-    icon: "bi-cpu",
-    color: "primary",
-  },
-  {
-    title: "Cultural Night",
-    club: "Arts & Culture Society",
-    date: "September 28, 2025",
-    time: "7:00 PM - 10:00 PM",
-    location: "College Grounds",
-    description:
-      "Experience the rich cultural diversity of our college through music, dance, and art performances.",
-    status: "upcoming",
-    icon: "bi-palette",
-    color: "info",
-  },
-  {
-    title: "Football Championship",
-    club: "Sports Club",
-    date: "September 22, 2025",
-    time: "3:00 PM - 5:00 PM",
-    location: "Sports Complex",
-    description:
-      "Inter-college football championship finals. Come support our team!",
-    status: "ongoing",
-    icon: "bi-trophy",
-    color: "warning",
-  },
-  {
-    title: "Entrepreneurship Workshop",
-    club: "Business Club",
-    date: "October 5, 2025",
-    time: "2:00 PM - 5:00 PM",
-    location: "Conference Hall",
-    description:
-      "Learn from successful entrepreneurs about starting your own business.",
-    status: "upcoming",
-    icon: "bi-lightbulb",
-    color: "success",
-  },
-];
+// Initialize data from localStorage or use defaults
+let eventsData = [];
+let clubsData = [];
+let formSubmissions = [];
+let selectedRole = null;
 
-// Sample clubs data
-const clubsData = [
-  {
-    name: "Computer Science Club",
-    description:
-      "Exploring the latest in technology, programming, and innovation.",
-    president: "Alex Johnson",
-    members: 85,
-    founded: "2018",
-    category: "Technology",
-    icon: "bi-cpu",
-    color: "primary",
-    activities: ["Coding Workshops", "Hackathons", "Tech Talks"],
-    meetingDay: "Wednesdays",
-    meetingTime: "6:00 PM",
-    location: "Computer Lab 1",
-  },
-  {
-    name: "Arts & Culture Society",
-    description: "Celebrating creativity through various art forms.",
-    president: "Sarah Williams",
-    members: 120,
-    founded: "2015",
-    category: "Arts",
-    icon: "bi-palette",
-    color: "info",
-    activities: ["Art Exhibitions", "Cultural Shows", "Music Concerts"],
-    meetingDay: "Fridays",
-    meetingTime: "5:30 PM",
-    location: "Arts Studio",
-  },
-  {
-    name: "Sports Club",
-    description: "Promoting physical fitness and competitive sports.",
-    president: "Mike Chen",
-    members: 150,
-    founded: "2012",
-    category: "Sports",
-    icon: "bi-trophy",
-    color: "warning",
-    activities: ["Football Tournaments", "Basketball League", "Swimming"],
-    meetingDay: "Mondays",
-    meetingTime: "4:00 PM",
-    location: "Sports Complex",
-  },
-];
+// Load data from localStorage
+function loadDataFromStorage() {
+  const storedEvents = localStorage.getItem("eventsData");
+  const storedClubs = localStorage.getItem("clubsData");
+  const storedSubmissions = localStorage.getItem("formSubmissions");
+
+  if (storedEvents) {
+    eventsData = JSON.parse(storedEvents);
+  } else {
+    eventsData = getDefaultEvents();
+    saveEventsToStorage();
+  }
+
+  if (storedClubs) {
+    clubsData = JSON.parse(storedClubs);
+  } else {
+    clubsData = getDefaultClubs();
+    saveClubsToStorage();
+  }
+
+  if (storedSubmissions) {
+    formSubmissions = JSON.parse(storedSubmissions);
+  }
+}
+
+// Save data to localStorage
+function saveEventsToStorage() {
+  localStorage.setItem("eventsData", JSON.stringify(eventsData));
+}
+
+function saveClubsToStorage() {
+  localStorage.setItem("clubsData", JSON.stringify(clubsData));
+}
+
+function saveSubmissionsToStorage() {
+  localStorage.setItem("formSubmissions", JSON.stringify(formSubmissions));
+}
+
+// Default events data
+function getDefaultEvents() {
+  return [
+    {
+      title: "Annual Tech Fest 2025",
+      club: "Computer Science Club",
+      date: "October 15, 2025",
+      time: "9:00 AM - 6:00 PM",
+      location: "Main Auditorium",
+      description:
+        "Join us for an exciting day of technology presentations, coding competitions, and workshops.",
+      status: "upcoming",
+      icon: "bi-cpu",
+      color: "primary",
+    },
+    {
+      title: "Cultural Night",
+      club: "Arts & Culture Society",
+      date: "September 28, 2025",
+      time: "7:00 PM - 10:00 PM",
+      location: "College Grounds",
+      description:
+        "Experience the rich cultural diversity of our college through music, dance, and art performances.",
+      status: "upcoming",
+      icon: "bi-palette",
+      color: "info",
+    },
+    {
+      title: "Football Championship",
+      club: "Sports Club",
+      date: "September 22, 2025",
+      time: "3:00 PM - 5:00 PM",
+      location: "Sports Complex",
+      description:
+        "Inter-college football championship finals. Come support our team!",
+      status: "ongoing",
+      icon: "bi-trophy",
+      color: "warning",
+    },
+    {
+      title: "Entrepreneurship Workshop",
+      club: "Business Club",
+      date: "October 5, 2025",
+      time: "2:00 PM - 5:00 PM",
+      location: "Conference Hall",
+      description:
+        "Learn from successful entrepreneurs about starting your own business.",
+      status: "upcoming",
+      icon: "bi-lightbulb",
+      color: "success",
+    },
+  ];
+}
+
+// Default clubs data
+function getDefaultClubs() {
+  return [
+    {
+      name: "Akatsuki Coding Club",
+      description:
+        "Competitive programming excellence and algorithmic problem-solving mastery",
+      president: "Arjun Sharma",
+      members: 120,
+      founded: "2019",
+      category: "Programming",
+      focusArea: "Competitive programming, data structures, algorithms",
+      icon: "bi-code-slash",
+      color: "primary",
+      activities: [
+        "Weekly coding sessions & peer programming",
+        "Internal coding contests, CodeChef competitions",
+        "Participation in platforms like LeetCode, HackerRank",
+      ],
+      outcomes: [
+        "Enhanced placement preparation",
+        "Top ranks in university-level tech contests",
+        "GATE & GRE technical readiness",
+      ],
+      meetingDay: "Tuesdays",
+      meetingTime: "6:00 PM",
+      location: "Computer Lab 2",
+      fees: 300,
+    },
+    {
+      name: "Plug Pose – Hardware Innovation Club",
+      description:
+        "Electronics prototyping and embedded systems innovation hub",
+      president: "Priya Patel",
+      members: 85,
+      founded: "2020",
+      category: "Hardware",
+      focusArea: "Electronics prototyping, embedded systems, PCB design",
+      icon: "bi-cpu-fill",
+      color: "warning",
+      activities: [
+        "Hardware bootcamps and soldering workshops",
+        "IoT mini-project development",
+        "Interfacing microcontrollers with sensors",
+      ],
+      outcomes: [
+        "Project-based learning for 2nd & 3rd-year students",
+        "Participation in Smart India Hackathon hardware editions",
+        "Patent filing and product showcase",
+      ],
+      meetingDay: "Saturdays",
+      meetingTime: "2:00 PM",
+      location: "Electronics Lab",
+      fees: 450,
+    },
+    {
+      name: "Data Polaris",
+      description:
+        "Data science excellence through analytics and visualization mastery",
+      president: "Rahul Kumar",
+      members: 95,
+      founded: "2018",
+      category: "Data Science",
+      focusArea: "Data science, data visualization, analytics, Python",
+      icon: "bi-graph-up",
+      color: "info",
+      activities: [
+        "Kaggle competitions",
+        "Workshops on data cleaning, visualization, ML basics",
+        "Guest sessions from data analysts and alumni",
+      ],
+      outcomes: [
+        "MOOC certifications (NPTEL, Coursera)",
+        "Internship opportunities in analytics and fintech",
+        "Industry-ready data portfolios",
+      ],
+      meetingDay: "Wednesdays",
+      meetingTime: "4:30 PM",
+      location: "Data Analytics Lab",
+      fees: 350,
+    },
+    {
+      name: "Google Developer Student Club (GDSC)",
+      description: "Google technologies and modern web development community",
+      president: "Sneha Gupta",
+      members: 140,
+      founded: "2017",
+      category: "Technology",
+      focusArea: "Android, cloud computing, Firebase, web development",
+      icon: "bi-google",
+      color: "success",
+      activities: [
+        "Hackathons (e.g., Solution Challenge)",
+        "Hands-on labs using Google Cloud Platform (GCP)",
+        "GitHub collaboration and Open Source participation",
+      ],
+      outcomes: [
+        "End-to-end app development experience",
+        "Resume-grade projects hosted online",
+        "Mentoring from Google Developer Experts (GDEs)",
+      ],
+      meetingDay: "Fridays",
+      meetingTime: "5:00 PM",
+      location: "Innovation Hub",
+      fees: 250,
+    },
+    {
+      name: "Fetch-AI",
+      description:
+        "Artificial Intelligence and Machine Learning research pioneers",
+      president: "Vikash Singh",
+      members: 110,
+      founded: "2019",
+      category: "AI/ML",
+      focusArea: "Machine Learning, Deep Learning, AI model building",
+      icon: "bi-robot",
+      color: "danger",
+      activities: [
+        "AI bootcamps, Python ML sessions",
+        "Building neural network models in TensorFlow, Keras",
+        "AI for social good challenges",
+      ],
+      outcomes: [
+        "Strong foundation for research and higher education",
+        "Student participation in AI-based national events",
+        "Mini-projects showcased on GitHub & Kaggle",
+      ],
+      meetingDay: "Thursdays",
+      meetingTime: "3:30 PM",
+      location: "AI Research Center",
+      fees: 400,
+    },
+    {
+      name: "Motorsports Club",
+      description:
+        "Automotive engineering and mechanical innovation excellence",
+      president: "Rohan Mehta",
+      members: 75,
+      founded: "2016",
+      category: "Engineering",
+      focusArea:
+        "Automotive engineering, vehicle design, mechanical innovation",
+      icon: "bi-gear-fill",
+      color: "dark",
+      activities: [
+        "Design & fabrication of go-karts or formula student prototypes",
+        "Participation in SAE BAJA & E-bike challenges",
+        "Workshops on CAD, ANSYS, and simulation",
+      ],
+      outcomes: [
+        "Experiential learning in mechanical and automotive domains",
+        "Industry-level teamwork and documentation experience",
+        "Recognition at national-level engineering expos",
+      ],
+      meetingDay: "Sundays",
+      meetingTime: "10:00 AM",
+      location: "Workshop Bay",
+      fees: 500,
+    },
+    {
+      name: "Club Samarpan (NSS Unit)",
+      description: "Community service and social development initiative",
+      president: "Anjali Sharma",
+      members: 200,
+      founded: "2015",
+      category: "Social Service",
+      focusArea: "Community service, rural development, social campaigns",
+      icon: "bi-heart-fill",
+      color: "danger",
+      activities: [
+        "Blood donation camps, health checkups",
+        "Cleanliness drives, voter awareness campaigns",
+        "Teaching underprivileged children and digital literacy",
+      ],
+      outcomes: [
+        "Over 300 students engaged annually",
+        "Real-life exposure to social issues",
+        "Recognitions from local governance bodies",
+      ],
+      meetingDay: "Saturdays",
+      meetingTime: "9:00 AM",
+      location: "Community Center",
+      fees: 200,
+    },
+    {
+      name: "Green Club / Eco Warriors",
+      description: "Environmental protection and sustainability champions",
+      president: "Kavya Reddy",
+      members: 130,
+      founded: "2018",
+      category: "Environment",
+      focusArea: "Environmental protection, sustainability, awareness",
+      icon: "bi-tree-fill",
+      color: "success",
+      activities: [
+        "Tree plantation drives, e-waste awareness",
+        "Campus cleanliness campaigns",
+        "Plastic-free and water conservation initiatives",
+      ],
+      outcomes: [
+        "Eco-conscious culture among students",
+        "Support from NGOs and municipal bodies",
+        "Community and school-level outreach",
+      ],
+      meetingDay: "Sundays",
+      meetingTime: "8:00 AM",
+      location: "Eco Garden",
+      fees: 200,
+    },
+    {
+      name: "Antarnaad",
+      description:
+        "Performing arts excellence and creative expression platform",
+      president: "Aditi Joshi",
+      members: 160,
+      founded: "2014",
+      category: "Performing Arts",
+      focusArea: "Performing arts – music, drama, dance",
+      icon: "bi-music-note-beamed",
+      color: "info",
+      activities: [
+        "Annual cultural fest performances",
+        "Drama competitions, street plays",
+        "Music jam sessions, choreography teams",
+      ],
+      outcomes: [
+        "Prizes in university youth festivals",
+        "Creative expression and personality development",
+        "Confidence-building and stage presence",
+      ],
+      meetingDay: "Fridays",
+      meetingTime: "6:30 PM",
+      location: "Auditorium",
+      fees: 300,
+    },
+    {
+      name: "Reflection (Fine Arts Club)",
+      description: "Visual arts mastery and creative design innovation",
+      president: "Arya Krishnan",
+      members: 90,
+      founded: "2017",
+      category: "Fine Arts",
+      focusArea: "Drawing, painting, sketching, model making",
+      icon: "bi-palette-fill",
+      color: "warning",
+      activities: [
+        "Rangoli competitions, wall painting, tech art",
+        "Departmental décor during fests",
+        "Poster making for awareness campaigns",
+      ],
+      outcomes: [
+        "Recognition for aesthetic contributions on campus",
+        "Portfolio-building for design careers",
+        "Engagement with visual arts exhibitions",
+      ],
+      meetingDay: "Wednesdays",
+      meetingTime: "5:30 PM",
+      location: "Art Studio",
+      fees: 350,
+    },
+    {
+      name: "Athleema Sports Club",
+      description: "Physical fitness excellence and competitive sports mastery",
+      president: "Karan Agarwal",
+      members: 180,
+      founded: "2013",
+      category: "Sports",
+      focusArea: "Physical fitness, athletics, team sports",
+      icon: "bi-trophy-fill",
+      color: "primary",
+      activities: [
+        "Annual Sports Day, inter-collegiate tournaments",
+        "Coaching in volleyball, cricket, kabaddi, badminton",
+        "Chess and carrom competitions",
+      ],
+      outcomes: [
+        "State and university-level medals",
+        "Student-athletes maintaining academic balance",
+        "Focus on health, wellness, and teamwork",
+      ],
+      meetingDay: "Daily",
+      meetingTime: "6:00 AM & 5:00 PM",
+      location: "Sports Complex",
+      fees: 250,
+    },
+  ];
+}
 
 // Sample members data
 const membersData = [
@@ -158,21 +446,52 @@ const membersData = [
 // DOM Elements
 const loginPage = document.getElementById("loginPage");
 const homepage = document.getElementById("homepage");
+const adminDashboard = document.getElementById("adminDashboard");
 const loginForm = document.getElementById("loginForm");
 const errorMessage = document.getElementById("errorMessage");
 const logoutBtn = document.getElementById("logoutBtn");
+const adminLogoutBtn = document.getElementById("adminLogoutBtn");
 const eventsContainer = document.getElementById("eventsContainer");
 const clubsContainer = document.getElementById("clubsContainer");
 const membersContainer = document.getElementById("membersContainer");
 
 // Demo credentials
 const validCredentials = {
-  username: "admin",
-  password: "password123",
+  student: {
+    username: "student",
+    password: "student123",
+  },
+  admin: {
+    username: "admin",
+    password: "admin123",
+  },
 };
+
+// Role selection functions
+function selectRole(role) {
+  selectedRole = role;
+  document.getElementById("roleSelection").style.display = "none";
+  document.getElementById("loginFormContainer").style.display = "block";
+  document.getElementById("selectedRoleBadge").textContent =
+    role === "student" ? "Student Login" : "Group Admin Login";
+  document.getElementById("selectedRoleBadge").className =
+    role === "student" ? "badge bg-primary" : "badge bg-success";
+}
+
+function backToRoleSelection() {
+  selectedRole = null;
+  document.getElementById("roleSelection").style.display = "block";
+  document.getElementById("loginFormContainer").style.display = "none";
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+  hideError();
+}
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
+  // Load data from localStorage
+  loadDataFromStorage();
+
   // Initialize AOS animations
   AOS.init({
     duration: 1000,
@@ -183,21 +502,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Check if user is already logged in
   const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const userRole = localStorage.getItem("userRole");
 
-  if (isLoggedIn === "true") {
-    showHomepage();
+  if (isLoggedIn === "true" && userRole) {
+    if (userRole === "student") {
+      showHomepage();
+    } else if (userRole === "admin") {
+      showAdminDashboard();
+    }
   } else {
     showLoginPage();
   }
 
   // Event listeners
-  loginForm.addEventListener("submit", handleLogin);
-  logoutBtn.addEventListener("click", handleLogout);
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", handleLogout);
+  }
+  if (adminLogoutBtn) {
+    adminLogoutBtn.addEventListener("click", handleLogout);
+  }
+
+  // Populate club dropdown in join form
+  populateClubDropdown();
 });
 
 function showHomepage() {
   console.log("🏠 showHomepage called");
   loginPage.classList.remove("active");
+  adminDashboard.classList.remove("active");
   homepage.classList.add("active");
 
   // Load all sections
@@ -217,13 +552,37 @@ function showHomepage() {
   }, 100);
 }
 
+function showAdminDashboard() {
+  console.log("🔐 showAdminDashboard called");
+  loginPage.classList.remove("active");
+  homepage.classList.remove("active");
+  adminDashboard.classList.add("active");
+
+  // Load admin sections
+  loadAdminEvents();
+  loadAdminClubs();
+  loadFormSubmissions();
+
+  // Refresh AOS animations
+  setTimeout(() => {
+    AOS.refresh();
+  }, 100);
+}
+
 function showLoginPage() {
   homepage.classList.remove("active");
+  adminDashboard.classList.remove("active");
   loginPage.classList.add("active");
+  backToRoleSelection();
 }
 
 function handleLogin(event) {
   event.preventDefault();
+
+  if (!selectedRole) {
+    showError("Please select a role first.");
+    return;
+  }
 
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -231,16 +590,22 @@ function handleLogin(event) {
   // Clear previous error messages
   hideError();
 
-  // Validate credentials
-  if (
-    username === validCredentials.username &&
-    password === validCredentials.password
-  ) {
+  // Validate credentials based on selected role
+  const credentials = validCredentials[selectedRole];
+
+  if (username === credentials.username && password === credentials.password) {
     // Successful login
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("username", username);
-    showHomepage();
+    localStorage.setItem("userRole", selectedRole);
+
     loginForm.reset();
+
+    if (selectedRole === "student") {
+      showHomepage();
+    } else if (selectedRole === "admin") {
+      showAdminDashboard();
+    }
   } else {
     // Failed login
     showError("Invalid username or password. Please try again.");
@@ -250,6 +615,8 @@ function handleLogin(event) {
 function handleLogout() {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("username");
+  localStorage.removeItem("userRole");
+  selectedRole = null;
   showLoginPage();
 }
 
@@ -269,6 +636,481 @@ function updateWelcomeMessage() {
     welcomeElement.textContent = `Welcome back, ${username}!`;
   }
 }
+
+// ==================== ADMIN DASHBOARD FUNCTIONS ====================
+
+// Load events for admin dashboard
+function loadAdminEvents() {
+  const container = document.getElementById("adminEventsContainer");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  eventsData.forEach((event, index) => {
+    const eventCard = createAdminEventCard(event, index);
+    container.appendChild(eventCard);
+  });
+}
+
+// Load clubs for admin dashboard
+function loadAdminClubs() {
+  const container = document.getElementById("adminClubsContainer");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  clubsData.forEach((club, index) => {
+    const clubCard = createAdminClubCard(club, index);
+    container.appendChild(clubCard);
+  });
+}
+
+// Load form submissions
+function loadFormSubmissions() {
+  const tbody = document.getElementById("formSubmissionsBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  if (formSubmissions.length === 0) {
+    tbody.innerHTML =
+      '<tr><td colspan="11" class="text-center text-muted">No submissions yet</td></tr>';
+    return;
+  }
+
+  formSubmissions.forEach((submission, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${submission.name}</td>
+      <td>${submission.rollNumber}</td>
+      <td>${submission.branch}</td>
+      <td>${submission.prnNumber}</td>
+      <td>${submission.club}</td>
+      <td>₹${submission.fees || "-"}</td>
+      <td>
+        <span class="badge bg-${
+          submission.paymentStatus === "completed" ? "success" : "warning"
+        }">
+          ${submission.paymentStatus || "pending"}
+        </span>
+        ${
+          submission.transactionId
+            ? `<br><small class="text-muted">${submission.transactionId}</small>`
+            : ""
+        }
+      </td>
+      <td>${submission.submittedOn}</td>
+      <td>
+        <span class="badge bg-${
+          submission.status === "approved"
+            ? "success"
+            : submission.status === "rejected"
+            ? "danger"
+            : "warning"
+        }">
+          ${submission.status}
+        </span>
+      </td>
+      <td>
+        ${
+          submission.status === "pending"
+            ? `
+          <button class="btn btn-sm btn-success me-1" onclick="approveSubmission(${index})">
+            <i class="bi bi-check-circle"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="rejectSubmission(${index})">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        `
+            : "-"
+        }
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Create admin event card with edit/delete buttons
+function createAdminEventCard(event, index) {
+  const colDiv = document.createElement("div");
+  colDiv.className = "col-lg-4 col-md-6 mb-4";
+
+  colDiv.innerHTML = `
+    <div class="card h-100 shadow-sm" style="border-left: 4px solid var(--bs-${
+      event.color
+    });">
+      <div class="card-header bg-${
+        event.color
+      } text-white d-flex justify-content-between align-items-center">
+        <h6 class="card-title mb-0">
+          <i class="${event.icon} me-2"></i>${event.title}
+        </h6>
+      </div>
+      <div class="card-body">
+        <p class="card-text mb-1"><strong>Club:</strong> ${event.club}</p>
+        <p class="card-text mb-1"><strong>Date:</strong> ${event.date}</p>
+        <p class="card-text mb-1"><strong>Time:</strong> ${event.time}</p>
+        <p class="card-text mb-1"><strong>Location:</strong> ${
+          event.location
+        }</p>
+        <p class="card-text small">${event.description.substring(0, 100)}...</p>
+        <span class="badge bg-${event.color}">${event.status}</span>
+      </div>
+      <div class="card-footer bg-white d-flex justify-content-between">
+        <button class="btn btn-sm btn-primary" onclick="editEvent(${index})">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="deleteEvent(${index})">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  `;
+
+  return colDiv;
+}
+
+// Create admin club card with edit/delete buttons
+function createAdminClubCard(club, index) {
+  const colDiv = document.createElement("div");
+  colDiv.className = "col-lg-4 col-md-6 mb-4";
+
+  colDiv.innerHTML = `
+    <div class="card h-100 shadow-sm" style="border-left: 4px solid var(--bs-${club.color});">
+      <div class="card-header bg-${club.color} text-white">
+        <h6 class="card-title mb-0">
+          <i class="${club.icon} me-2"></i>${club.name}
+        </h6>
+      </div>
+      <div class="card-body">
+        <p class="card-text small mb-1">${club.description}</p>
+        <p class="card-text mb-1"><strong>President:</strong> ${club.president}</p>
+        <p class="card-text mb-1"><strong>Members:</strong> ${club.members}</p>
+        <p class="card-text mb-1"><strong>Category:</strong> ${club.category}</p>
+      </div>
+      <div class="card-footer bg-white d-flex justify-content-between">
+        <button class="btn btn-sm btn-primary" onclick="editClub(${index})">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="deleteClub(${index})">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  `;
+
+  return colDiv;
+}
+
+// Event CRUD operations
+function showAddEventModal() {
+  document.getElementById("eventModalTitle").textContent = "Add New Event";
+  document.getElementById("eventIndex").value = "";
+  document.getElementById("eventForm").reset();
+  new bootstrap.Modal(document.getElementById("eventModal")).show();
+}
+
+function editEvent(index) {
+  const event = eventsData[index];
+  document.getElementById("eventModalTitle").textContent = "Edit Event";
+  document.getElementById("eventIndex").value = index;
+  document.getElementById("eventTitle").value = event.title;
+  document.getElementById("eventClub").value = event.club;
+  document.getElementById("eventDate").value = event.date;
+  document.getElementById("eventTime").value = event.time;
+  document.getElementById("eventLocation").value = event.location;
+  document.getElementById("eventDescription").value = event.description;
+  document.getElementById("eventStatus").value = event.status;
+  new bootstrap.Modal(document.getElementById("eventModal")).show();
+}
+
+function saveEvent() {
+  const index = document.getElementById("eventIndex").value;
+  const event = {
+    title: document.getElementById("eventTitle").value,
+    club: document.getElementById("eventClub").value,
+    date: document.getElementById("eventDate").value,
+    time: document.getElementById("eventTime").value,
+    location: document.getElementById("eventLocation").value,
+    description: document.getElementById("eventDescription").value,
+    status: document.getElementById("eventStatus").value,
+    icon: "bi-calendar-event",
+    color: "primary",
+  };
+
+  if (index === "") {
+    // Add new event
+    eventsData.push(event);
+  } else {
+    // Update existing event
+    eventsData[parseInt(index)] = { ...eventsData[parseInt(index)], ...event };
+  }
+
+  saveEventsToStorage();
+  loadAdminEvents();
+  bootstrap.Modal.getInstance(document.getElementById("eventModal")).hide();
+
+  // Show success message
+  alert("Event saved successfully!");
+}
+
+function deleteEvent(index) {
+  if (confirm("Are you sure you want to delete this event?")) {
+    eventsData.splice(index, 1);
+    saveEventsToStorage();
+    loadAdminEvents();
+    alert("Event deleted successfully!");
+  }
+}
+
+// Club CRUD operations
+function showAddClubModal() {
+  document.getElementById("clubModalTitle").textContent = "Add New Club";
+  document.getElementById("clubIndex").value = "";
+  document.getElementById("clubForm").reset();
+  new bootstrap.Modal(document.getElementById("clubModal")).show();
+}
+
+function editClub(index) {
+  const club = clubsData[index];
+  document.getElementById("clubModalTitle").textContent = "Edit Club";
+  document.getElementById("clubIndex").value = index;
+  document.getElementById("clubName").value = club.name;
+  document.getElementById("clubDescription").value = club.description;
+  document.getElementById("clubPresident").value = club.president;
+  document.getElementById("clubMembers").value = club.members;
+  document.getElementById("clubCategory").value = club.category;
+  document.getElementById("clubFounded").value = club.founded;
+  document.getElementById("clubFocusArea").value = club.focusArea;
+  new bootstrap.Modal(document.getElementById("clubModal")).show();
+}
+
+function saveClub() {
+  const index = document.getElementById("clubIndex").value;
+  const club = {
+    name: document.getElementById("clubName").value,
+    description: document.getElementById("clubDescription").value,
+    president: document.getElementById("clubPresident").value,
+    members: parseInt(document.getElementById("clubMembers").value),
+    category: document.getElementById("clubCategory").value,
+    founded: document.getElementById("clubFounded").value,
+    focusArea: document.getElementById("clubFocusArea").value,
+    icon: "bi-people",
+    color: "primary",
+    activities: ["Member activities"],
+    outcomes: ["Key outcomes"],
+    meetingDay: "TBD",
+    meetingTime: "TBD",
+    location: "TBD",
+  };
+
+  if (index === "") {
+    // Add new club
+    clubsData.push(club);
+  } else {
+    // Update existing club
+    clubsData[parseInt(index)] = { ...clubsData[parseInt(index)], ...club };
+  }
+
+  saveClubsToStorage();
+  loadAdminClubs();
+  bootstrap.Modal.getInstance(document.getElementById("clubModal")).hide();
+
+  // Show success message
+  alert("Club saved successfully!");
+}
+
+function deleteClub(index) {
+  if (confirm("Are you sure you want to delete this club?")) {
+    clubsData.splice(index, 1);
+    saveClubsToStorage();
+    loadAdminClubs();
+    alert("Club deleted successfully!");
+  }
+}
+
+// Form submission management
+function populateClubDropdown() {
+  const select = document.getElementById("clubToJoin");
+  if (!select) return;
+
+  // Clear existing options except the first one
+  select.innerHTML = '<option value="">Choose a club...</option>';
+
+  clubsData.forEach((club) => {
+    const option = document.createElement("option");
+    option.value = club.name;
+    option.textContent = club.name;
+    select.appendChild(option);
+  });
+}
+
+// Store current form data for payment
+let currentFormSubmission = null;
+
+// Update club fees display when club is selected
+function updateClubFees() {
+  const clubSelect = document.getElementById("clubToJoin");
+  const feesSection = document.getElementById("feesSection");
+  const clubFeesDisplay = document.getElementById("clubFees");
+
+  if (clubSelect.value) {
+    const selectedClub = clubsData.find(
+      (club) => club.name === clubSelect.value
+    );
+    if (selectedClub && selectedClub.fees) {
+      clubFeesDisplay.textContent = selectedClub.fees;
+      feesSection.classList.remove("d-none");
+    }
+  } else {
+    feesSection.classList.add("d-none");
+  }
+}
+
+function submitJoinClubForm() {
+  const form = document.getElementById("joinClubForm");
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const clubName = document.getElementById("clubToJoin").value;
+  const selectedClub = clubsData.find((club) => club.name === clubName);
+
+  // Store submission data
+  currentFormSubmission = {
+    name: document.getElementById("studentName").value,
+    rollNumber: document.getElementById("rollNumber").value,
+    branch: document.getElementById("branch").value,
+    prnNumber: document.getElementById("prnNumber").value,
+    club: clubName,
+    fees: selectedClub.fees,
+    submittedOn: new Date().toLocaleString(),
+    status: "pending",
+    paymentStatus: "pending",
+  };
+
+  // Show payment modal
+  showPaymentModal();
+}
+
+function showPaymentModal() {
+  // Hide join club modal
+  const joinModal = bootstrap.Modal.getInstance(
+    document.getElementById("joinClubModal")
+  );
+  if (joinModal) joinModal.hide();
+
+  // Update payment modal details
+  document.getElementById("paymentClubName").textContent =
+    currentFormSubmission.club;
+  document.getElementById("paymentStudentName").textContent =
+    currentFormSubmission.name;
+  document.getElementById("paymentRollNumber").textContent =
+    currentFormSubmission.rollNumber;
+  document.getElementById("paymentAmount").textContent =
+    currentFormSubmission.fees;
+
+  // Show payment modal
+  const paymentModal = new bootstrap.Modal(
+    document.getElementById("paymentModal")
+  );
+  paymentModal.show();
+}
+
+function processPayment() {
+  const selectedPaymentMethod = document.querySelector(
+    'input[name="paymentMethod"]:checked'
+  ).value;
+
+  // Hide payment modal
+  const paymentModal = bootstrap.Modal.getInstance(
+    document.getElementById("paymentModal")
+  );
+  if (paymentModal) paymentModal.hide();
+
+  // Show processing modal
+  const processingModal = new bootstrap.Modal(
+    document.getElementById("processingModal")
+  );
+  processingModal.show();
+
+  // Simulate payment processing
+  setTimeout(() => {
+    // Hide processing modal
+    processingModal.hide();
+
+    // Generate transaction ID
+    const transactionId =
+      "TXN" +
+      new Date().getFullYear() +
+      String(new Date().getMonth() + 1).padStart(2, "0") +
+      String(new Date().getDate()).padStart(2, "0") +
+      Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    // Update submission with payment details
+    currentFormSubmission.paymentStatus = "completed";
+    currentFormSubmission.paymentMethod = selectedPaymentMethod;
+    currentFormSubmission.transactionId = transactionId;
+    currentFormSubmission.paidAmount = currentFormSubmission.fees;
+    currentFormSubmission.paymentDate = new Date().toLocaleString();
+
+    // Add to submissions
+    formSubmissions.push(currentFormSubmission);
+    saveSubmissionsToStorage();
+
+    // Show transaction ID
+    document.getElementById("transactionId").textContent = transactionId;
+
+    // Show success modal
+    const successModal = new bootstrap.Modal(
+      document.getElementById("successModal")
+    );
+    successModal.show();
+
+    // Reset form
+    document.getElementById("joinClubForm").reset();
+    document.getElementById("feesSection").classList.add("d-none");
+    currentFormSubmission = null;
+  }, 2000); // 2 second delay to simulate processing
+}
+
+function closeAllModals() {
+  // Close all modals
+  const modals = document.querySelectorAll(".modal");
+  modals.forEach((modal) => {
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  });
+
+  // Remove all modal backdrops
+  const backdrops = document.querySelectorAll(".modal-backdrop");
+  backdrops.forEach((backdrop) => backdrop.remove());
+
+  // Reset body styles
+  document.body.classList.remove("modal-open");
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = "";
+}
+
+function approveSubmission(index) {
+  formSubmissions[index].status = "approved";
+  saveSubmissionsToStorage();
+  loadFormSubmissions();
+  alert("Submission approved!");
+}
+
+function rejectSubmission(index) {
+  formSubmissions[index].status = "rejected";
+  saveSubmissionsToStorage();
+  loadFormSubmissions();
+  alert("Submission rejected!");
+}
+
+// ==================== STUDENT DASHBOARD FUNCTIONS ====================
 
 // Load events with animation
 function loadEventsWithAnimation() {
@@ -304,7 +1146,7 @@ function loadClubsWithAnimation() {
   clubsData.forEach((club, index) => {
     setTimeout(() => {
       console.log(`🏫 Creating club card ${index + 1}:`, club.name);
-      const clubCard = createClubCard(club, index);
+      const clubCard = createEnhancedClubCard(club, index);
       clubsContainer.appendChild(clubCard);
     }, index * 200);
   });
@@ -361,44 +1203,108 @@ function createEventCard(event, index) {
   return colDiv;
 }
 
-// Create club card
-function createClubCard(club, index) {
+// Create enhanced club card with focus area, activities, and outcomes
+function createEnhancedClubCard(club, index) {
   const colDiv = document.createElement("div");
   colDiv.className = "col-lg-4 col-md-6 mb-4";
 
   colDiv.innerHTML = `
-    <div class="card h-100 shadow-sm" style="border-left: 4px solid var(--bs-${
+    <div class="card h-100 shadow-lg border-0" style="border-left: 5px solid var(--bs-${
       club.color
-    });">
-      <div class="card-header bg-${club.color} text-white">
-        <h5 class="card-title mb-0">
-          <i class="${club.icon} me-2"></i>${club.name}
-        </h5>
-      </div>
-      <div class="card-body">
-        <p class="card-text mb-2"><strong>President:</strong> ${
-          club.president
-        }</p>
-        <p class="card-text mb-2"><strong>Members:</strong> ${club.members}</p>
-        <p class="card-text mb-2"><strong>Founded:</strong> ${club.founded}</p>
-        <p class="card-text mb-3">${club.description}</p>
-        <div class="mb-3">
-          <strong>Activities:</strong>
-          <div class="mt-1">
-            ${club.activities
-              .map(
-                (activity) =>
-                  `<span class="badge bg-light text-dark me-1 mb-1">${activity}</span>`
-              )
-              .join("")}
+    }) !important; border-radius: 15px;">
+      <div class="card-header bg-${
+        club.color
+      } text-white" style="border-radius: 15px 15px 0 0;">
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <i class="${club.icon}" style="font-size: 2.5rem;"></i>
+          </div>
+          <div>
+            <h5 class="card-title mb-1 fw-bold">${club.name}</h5>
+            <small class="text-white-50">${club.category} • ${
+    club.members
+  } Members</small>
           </div>
         </div>
+      </div>
+      <div class="card-body p-4">
+        <!-- Focus Area -->
+        <div class="mb-3">
+          <h6 class="text-${club.color} fw-bold mb-2">
+            <i class="bi bi-bullseye me-2"></i>Focus Area
+          </h6>
+          <p class="text-muted small">${club.focusArea}</p>
+        </div>
+        
+        <!-- Description -->
+        <div class="mb-3">
+          <p class="card-text text-dark">${club.description}</p>
+        </div>
+        
+        <!-- Activities -->
+        <div class="mb-3">
+          <h6 class="text-${club.color} fw-bold mb-2">
+            <i class="bi bi-lightning me-2"></i>Key Activities
+          </h6>
+          <div class="d-flex flex-wrap gap-1">
+            ${club.activities
+              .slice(0, 3)
+              .map(
+                (activity) =>
+                  `<span class="badge bg-${club.color} bg-opacity-10 text-${club.color} small px-2 py-1">${activity}</span>`
+              )
+              .join("")}
+            ${
+              club.activities.length > 3
+                ? `<span class="badge bg-secondary bg-opacity-10 text-secondary small px-2 py-1">+${
+                    club.activities.length - 3
+                  } more</span>`
+                : ""
+            }
+          </div>
+        </div>
+        
+        <!-- Key Outcomes -->
+        <div class="mb-4">
+          <h6 class="text-${club.color} fw-bold mb-2">
+            <i class="bi bi-trophy me-2"></i>Key Outcomes
+          </h6>
+          <div class="outcomes-list">
+            ${club.outcomes
+              .slice(0, 3)
+              .map(
+                (outcome) =>
+                  `<div class="d-flex align-items-center mb-1">
+                <i class="bi bi-check-circle-fill text-success me-2" style="font-size: 0.8rem;"></i>
+                <small class="text-muted">${outcome}</small>
+              </div>`
+              )
+              .join("")}
+            ${
+              club.outcomes.length > 3
+                ? `<div class="d-flex align-items-center mb-1">
+                <i class="bi bi-plus-circle text-secondary me-2" style="font-size: 0.8rem;"></i>
+                <small class="text-secondary">${
+                  club.outcomes.length - 3
+                } more achievements</small>
+              </div>`
+                : ""
+            }
+          </div>
+        </div>
+        
+        <!-- Meeting Info & Action -->
         <div class="d-flex justify-content-between align-items-center">
-          <span class="badge bg-${club.color}">${club.category}</span>
+          <div class="text-center">
+            <small class="text-muted d-block">Founded ${club.founded}</small>
+            <small class="text-${club.color}">${club.meetingDay}s ${
+    club.meetingTime
+  }</small>
+          </div>
           <button class="btn btn-${
             club.color
-          } btn-sm" onclick="showClubDetails('${club.name}')">
-            Join Club
+          } btn-sm px-3 shadow-sm" onclick="showClubDetails('${club.name}')">
+            <i class="bi bi-people me-1"></i>Join Club
           </button>
         </div>
       </div>
@@ -464,8 +1370,11 @@ function showClubDetails(clubName) {
   const club = clubsData.find((c) => c.name === clubName);
   if (!club) return;
 
+  const activitiesText = club.activities.join(", ");
+  const outcomesText = club.outcomes.join("\n• ");
+
   alert(
-    `Club: ${club.name}\nPresident: ${club.president}\nMembers: ${club.members}\nFounded: ${club.founded}\nDescription: ${club.description}`
+    `Club: ${club.name}\n\nFocus Area: ${club.focusArea}\n\nPresident: ${club.president}\nMembers: ${club.members}\nFounded: ${club.founded}\n\nDescription: ${club.description}\n\nKey Activities:\n• ${activitiesText}\n\nKey Outcomes:\n• ${outcomesText}\n\nMeeting: ${club.meetingDay}s at ${club.meetingTime}\nLocation: ${club.location}`
   );
 }
 
