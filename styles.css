@@ -756,3 +756,443 @@ html {
     height: 70px;
   }
 }
+
+/* ==================== ADMIN DASHBOARD STYLES ==================== */
+
+/* Admin Hero Section */
+.admin-hero-section {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 80px 0 60px 0;
+}
+
+/* Admin Navbar */
+.navbar-dark .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: color 0.3s ease;
+}
+
+.navbar-dark .nav-link:hover {
+  color: #ffc107 !important;
+}
+
+/* Admin Card Styles */
+#adminEventsContainer .card,
+#adminClubsContainer .card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+#adminEventsContainer .card:hover,
+#adminClubsContainer .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+}
+
+/* Form Submissions Table */
+#formSubmissionsTable {
+  background: white;
+}
+
+#formSubmissionsTable thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+#formSubmissionsTable tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+#formSubmissionsTable tbody tr:hover {
+  background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* Role Selection Buttons */
+.role-btn {
+  padding: 20px 10px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border-width: 2px;
+}
+
+.role-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.role-btn i {
+  transition: transform 0.3s ease;
+}
+
+.role-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Modal Enhancements */
+.modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  border-radius: 15px 15px 0 0;
+  border-bottom: none;
+  padding: 20px 25px;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 25px;
+}
+
+/* Join Club Button */
+.clubs-section .btn-warning {
+  animation: pulse 2s infinite;
+  box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Admin Dashboard Background */
+#adminDashboard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  min-height: 100vh;
+}
+
+/* Table Responsive Enhancements */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Badge Enhancements */
+.badge {
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+/* Button Enhancements */
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 0.875rem;
+  border-radius: 6px;
+}
+
+/* Card Header Icon Size */
+.card-header i {
+  font-size: 1.2rem;
+}
+
+/* Login Form Container */
+#loginFormContainer {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status Badge Colors */
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000;
+}
+
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+/* Responsive Admin Dashboard */
+@media (max-width: 768px) {
+  .admin-hero-section {
+    padding: 60px 0 40px 0;
+  }
+
+  .admin-hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-footer .btn {
+    width: 100%;
+  }
+
+  .role-btn {
+    padding: 15px 5px;
+  }
+
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+}
+
+/* Fix badge visibility for dark colors - make backgrounds lighter */
+.badge.bg-warning.bg-opacity-10 {
+  background-color: rgba(255, 193, 7, 0.15) !important;
+}
+
+.badge.bg-success.bg-opacity-10 {
+  background-color: rgba(25, 135, 84, 0.12) !important;
+}
+
+.badge.bg-danger.bg-opacity-10 {
+  background-color: rgba(220, 53, 69, 0.12) !important;
+}
+
+.badge.bg-dark.bg-opacity-10 {
+  background-color: rgba(33, 37, 41, 0.08) !important;
+}
+
+/* Ensure text colors are visible */
+.badge.text-warning {
+  color: #d39e00 !important;
+  font-weight: 600;
+}
+
+.badge.text-success {
+  color: #198754 !important;
+  font-weight: 600;
+}
+
+.badge.text-danger {
+  color: #dc3545 !important;
+  font-weight: 600;
+}
+
+.badge.text-dark {
+  color: #212529 !important;
+  font-weight: 600;
+}
+
+/* Ensure all cards properly contain content with text wrapping */
+.card {
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.card-body {
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.card-header {
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure badges wrap properly and don't overflow */
+.badge {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  line-height: 1.4;
+  display: inline-block;
+  text-align: left;
+}
+
+/* Specific fix for activity badges */
+.d-flex.flex-wrap.gap-1 {
+  max-width: 100%;
+}
+
+.d-flex.flex-wrap.gap-1 .badge {
+  max-width: calc(100% - 0.25rem);
+  word-break: break-word;
+}
+
+/* Ensure text in cards doesn't overflow */
+.card-text,
+.card-title,
+.text-muted,
+.text-dark {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Fix for small text in badges */
+.badge.small {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  line-height: 1.3;
+}
+
+/* Payment Modal Styling */
+.payment-summary {
+  animation: slideInUp 0.5s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.payment-option {
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.payment-option:hover {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+  transform: translateX(5px);
+}
+
+.payment-option input[type="radio"]:checked + label {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.payment-option label {
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.payment-methods .form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+/* Success Animation */
+.success-animation i {
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.transaction-details {
+  animation: fadeIn 0.8s ease 0.3s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Processing Modal */
+#processingModal .spinner-border {
+  animation: spin 1s linear infinite;
+}
+
+/* Fee Display Styling */
+#feesSection {
+  border-left: 4px solid #0dcaf0;
+  animation: slideInRight 0.5s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Payment Modal Header Gradient */
+.modal-header.bg-success {
+  background: linear-gradient(135deg, #198754, #20c997) !important;
+}
+
+/* Payment Summary Card */
+.payment-summary .card {
+  border: 2px solid #e9ecef;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Security Badge Styling */
+.alert-success.border-success {
+  border-width: 2px !important;
+  background: rgba(25, 135, 84, 0.1);
+}
+
+/* Modal Content Animation */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1);
+}
+
+/* Responsive Payment Modal */
+@media (max-width: 576px) {
+  .payment-option {
+    padding: 12px;
+  }
+
+  .payment-option .fs-4 {
+    font-size: 1.5rem !important;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
